@@ -1,0 +1,17 @@
+<html>
+<head></head>
+<body>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script>
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        if(data.userSelectedType == "R"){
+                            location.href="native://setAddress?zoneCode=" + data.zonecode + "&address=" + data.roadAddress + "&buildingName=" + data.buildingName
+                        } else {
+                            location.href="native://setAddress?zoneCode=" + data.zonecode + "&address=" + data.jibunAddress + "&buildingName=" + data.buildingName
+                        }       
+                    }
+                }).open();
+            </script>
+</body>
+</html>
