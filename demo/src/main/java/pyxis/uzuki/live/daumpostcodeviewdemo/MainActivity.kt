@@ -12,6 +12,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         postView.setCallback { zoneCode, address, buildingName ->
-            this@MainActivity.alert("zoneCode: %s, address: %s, buildingName: %s".format(zoneCode, address, buildingName))}
+            this@MainActivity.alert("zoneCode: %s, address: %s, buildingName: %s".format(zoneCode, address, buildingName))
+        }
+        postView.setPostUrl("https://windsekirun.github.io/DaumPostCodeView/")
+        postView.startLoad()
     }
 }
