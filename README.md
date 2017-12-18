@@ -1,5 +1,7 @@
 ## DaumPostCodeView [![](https://jitpack.io/v/WindSekirun/DaumPostCodeView.svg)](https://jitpack.io/#WindSekirun/DaumPostCodeView)
 
+[![Kotlin](https://img.shields.io/badge/kotlin-1.2.0-blue.svg)](http://kotlinlang.org)	[![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
+
 이 라이브러리는 [코틀린](http://kotlinlang.org)으로 작성된 [다음 우편번호 서비스](http://postcode.map.daum.net/guide#usage) 의 Wrapping View 라이브러리입니다. 
 
 ### Usages
@@ -56,4 +58,21 @@ postCodeView.setCallback((zoneCode, address, buildingName) -> {
         RichUtils.alert(this, String.format("zoneCode: %s, address: %s, buildingName: %s", zoneCode, address, buildingName));
 });
 postCodeView.startLoad();
+```
+
+### License 
+```
+Copyright 2017 WindSekirun (DongGil, Seo)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 ```
