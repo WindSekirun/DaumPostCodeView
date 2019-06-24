@@ -1,32 +1,61 @@
 <html>
-    <head></head>
-    <body>
-            <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-            <script>
-                new daum.Postcode({
-            oncomplete: function(data) {
-                var addr = ''; 
-                var extraAddr = ''; 
-                if (data.userSelectedType === 'R') { 
-                    addr = data.roadAddress;
-                } else {
-                    addr = data.jibunAddress;
-                }
-                if(data.userSelectedType === 'R'){
-                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                        extraAddr += data.bname;
-                    }
-                    if(data.buildingName !== '' && data.apartment === 'Y'){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    if(extraAddr !== ''){
-                        extraAddr = ' (' + extraAddr + ')';
-                    }
-                } 
 
-                location.href='native://setAddress?zoneCode=' + data.zonecode + '&address=' + addr + '&buildingName=' + extraAddr
-            }
-        }).open();
-            </script>
-    </body>
+<head></head>
+
+<body>
+    <div id="wrap" style="display:none;position:relative">
+    </div>
+
+    <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+    <script>
+        // 우편번호 찾기 찾기 화면을 넣을 element
+        var element_wrap = document.getElementById('wrap');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            daumPost()
+        }, false);
+
+        function daumPost() {
+            // 현재 scroll 위치를 저장해놓는다.
+            var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    var addr = '';
+                    var extraAddr = '';
+                    if (data.userSelectedType === 'R') {
+                        addr = data.roadAddress;
+                    } else {
+                        addr = data.jibunAddress;
+                    }
+                    if (data.userSelectedType === 'R') {
+                        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                            extraAddr += data.bname;
+                        }
+                        if (data.buildingName !== '' && data.apartment === 'Y') {
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        if (extraAddr !== '') {
+                            extraAddr = ' (' + extraAddr + ')';
+                        }
+                    }
+
+                    location.href = 'native://setAddress?zoneCode=' + data.zonecode + '&address=' + addr + '&buildingName=' + extraAddr
+
+                    // iframe을 넣은 element를 안보이게 한다.
+                    // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
+                    element_wrap.style.display = 'none';
+
+                    // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
+                    document.body.scrollTop = currentScroll;
+                },
+                width: '100%',
+                height: '100%'
+            }).embed(element_wrap);
+
+            // iframe을 넣은 element를 보이게 한다.
+            element_wrap.style.display = 'block';
+        }
+    </script>
+</body>
+
 </html>
