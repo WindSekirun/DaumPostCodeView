@@ -1,17 +1,32 @@
 <html>
     <head></head>
     <body>
-            <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+            <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
             <script>
                 new daum.Postcode({
-                    oncomplete: function(data) {
-                        if(data.userSelectedType == "R"){
-                            location.href='native://setAddress?zoneCode=' + data.zonecode + '&address=' + data.roadAddress + '&buildingName=' + data.buildingName
-                        } else {
-                            location.href='native://setAddress?zoneCode=' + data.zonecode + '&address=' + data.jibunAddress + '&buildingName=' + data.buildingName
-                        }       
+            oncomplete: function(data) {
+                var addr = ''; 
+                var extraAddr = ''; 
+                if (data.userSelectedType === 'R') { 
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
+                }
+                if(data.userSelectedType === 'R'){
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
                     }
-                }).open();
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                } 
+
+                location.href='native://setAddress?zoneCode=' + data.zonecode + '&address=' + addr + '&buildingName=' + extraAddr
+            }
+        }).open();
             </script>
     </body>
 </html>
